@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block TITLE %}Bilgilerim{% endblock %}
+
+{% block breadcrumb %}
+<nav class="col-sm-8 col-md-8 col-lg-8 offset-2" aria-label="breadcrumb">
+  <ol class="breadcrumb"  style="margin-top: 80px; border-radius: 55px;">
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'list-notes' %}">Ana sayfa</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Bilgilerim</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block BODY %}
+    <!-- UPDATE FORM -->
+    <div class="row" style="margin-top: 60px;">
+        <div class="col-lg-3 offset-3">
+            <h3>Update Information</h3>
+            <form method="post" action="{% url 'user-settings' request.user.username %}">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group" style="margin-top: 20px">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <label class="control-label" style="color: #0f0f0f" for="{{ field.id_for_label }}">
+                                    <b>{{ field.label }}:</b>
+                                </label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        <span style="color: red; font-family: 'Calibri Light'; font-size: 17px;"><b>{{ error }}</b></span>
+                                    {% endfor %}
+                                {% else %}
+                                    {% if field.help_text %}
+                                        <span class="text-info" style="color: dodgerblue">{{ field.help_text }}</span>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <span style="font-style: italic"><p>*These information are important to contact with you. Be sure they're current.</p></span>
+                <input type="submit" class="btn btn-success float-lg-right" value="Update" style="margin-top: 10px">
+            </form>
+        </div>
+    </div>
+    <!-- CURRENT INFORMATION -->
+    <div class="container">
+        <div class="row">
+            <div class="offset-7" style="margin-top: -340px">
+                <h3>Your Current Information</h3>
+                <h5 style="margin-top: 50px;">Faculty <i class="fa fa-home"></i></h5>
+                {% if request.user.profile.faculty == None %}
+                    <p class="text-danger">No information!</p>
+                {% else %}
+                    <p>{{ request.user.profile.get_faculty }}</p>
+                {% endif %}
+                <h5 style="margin-top: 50px;">Phone Number <i class="fa fa-phone-square"></i></h5>
+                {% if request.user.profile.phone_number == None %}
+                    <p class="text-danger">No information!</p>
+                {% else %}
+                    <p>+90 {{ request.user.profile.phone_number }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <script rel="script" type="text/javascript" src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    {% block HEADER %}{% endblock %}
+    <title>{% block TITLE %}{% endblock %}</title>
+</head>
+
+<body>
+<!-- NAVBAR -->
+<nav class="col-sm-8 col-md-8 col-lg-8 offset-2 navbar navbar-expand-lg navbar navbar-dark bg-dark fixed-top"
+     style="border-bottom-right-radius: 34px; border-bottom-left-radius: 34px;">
+    <a class="navbar-brand" href="{% url 'list-notes' %}" style="font-family: 'Castellar'; font-size: 30px;">Notework</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'list-notes' %}">HOMEPAGE <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'who-we-are' %}">ABOUT US</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">JOIN OUR TEAM</a>
+            </li>
+        </ul>
+        <div>
+            <!-- CONTROL OF USER'S STATUS AND NAV ADJUSTMENT -->
+            {% if request.user.is_active %}
+                {% include 'users/user-nav/logged-user-nav.html' %}
+            {% else %}
+                {% include 'users/user-nav/logout-user-nav.html' %}
+            {% endif %}
+        </div>
+        <div class="float-lg-right">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <form action="{% url 'sell-note' %}" method="post" lass="form-inline my-2 my-lg-0">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-info my-2 my-sm-0" type="submit">SELL NOTE</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% block breadcrumb %}
+
+{% endblock %}
+<!-- MESSAGES -->
+{% include 'message.html' %}
+<!-- CONTENT -->
+{% block BODY %}
+{% endblock %}
+
+<div class="row" style="margin-top: 200px;"></div>
+
+<footer class="page-footer font-small"
+        style="background-color: gray; border-top-left-radius: 20px; border-top-right-radius: 20px;">
+    <div class="container">
+        <div class="row text-center justify-content-center pt-5 mb-3">
+            <div class="col-md-2 mb-3">
+                <h6 class="text-uppercase font-weight-bold" style="font-family: 'Trebuchet MS'">
+                    <a href="{% url 'who-we-are' %}" style="color: white">ABOUT US</a>
+                </h6>
+            </div>
+            <div class="col-md-2 mb-3">
+                <h6 class="text-uppercase font-weight-bold" style="font-family: 'Trebuchet MS'">
+                    <a href="#" style="color: white">NOTES</a>
+                </h6>
+            </div>
+            <div class="col-md-2 mb-3">
+                <h6 class="text-uppercase font-weight-bold" style="font-family: 'Trebuchet MS'">
+                    <a href="#" style="color: white">CONTACT</a>
+                </h6>
+            </div>
+        </div>
+        <hr class="rgba-white-light" style="margin: 0 15%;">
+        <div class="row d-flex text-center justify-content-center mb-md-0 mb-4">
+            <div class="col-md-8 col-12 mt-5">
+                <p style="line-height: 1.7rem; color: lightgray; font-family: Bahnschrift;">
+                    Notework. A useful tool for students.
+                </p>
+            </div>
+        </div>
+        <hr class="row">
+        <div class="row pb-3">
+            <div class="col-md-12 text-center">
+                <div class="mb-5 flex-center">
+                    <a href="#" class="fb-ic" style="margin: 10px; color: black">
+                        <i class="fa fa-facebook" style="font-size: 30px;"></i>
+                    </a>
+                    <!-- Twitter -->
+                    <a href="#" class="tw-ic" style="margin: 10px; color: black">
+                    <i class="fa fa-twitter" style="font-size: 30px;"></i>
+                    </a>
+                    <!-- Google +-->
+                    <a href="#" class="gplus-ic" style="margin: 10px; color: black">
+                    <i class="fa fa-google-plus" style="font-size: 30px;"></i>
+                    </a>
+                    <!--Linkedin -->
+                    <a href="#" class="li-ic" style="margin: 10px; color: black">
+                    <i class="fa fa-linkedin" style="font-size: 30px;"></i>
+                    </a>
+                    <!--Instagram-->
+                    <a href="" class="ins-ic" style="margin: 10px; color: black">
+                        <i class="fa fa-instagram" style="font-size: 30px;"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright text-center py-3" style="color: white; font-size: 20px; font-family: 'Trebuchet MS'">©
+        2018 Copyright:
+        <a href="https://mdbootstrap.com/education/bootstrap/" style="color: lightskyblue; font-family: Bahnschrift">
+            notework</a>
+    </div>
+</footer>
+</body>
+
+</html>

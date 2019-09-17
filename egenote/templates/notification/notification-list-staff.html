@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+{% load faculty_validation %}
+{% block TITLE %}SATIŞ YAP{% endblock %}
+{% block HEADER %}
+
+    <script type="text/javascript" rel="script">
+        $(document).ready(function () {
+            $(".getInfo").click(function () {
+                var $this = $(this);
+                var $username = $this.attr('username');
+                var $contactType = $this.attr('contact_type');
+                var $url = $this.attr('url');
+
+                var data = {username: $username, contactType: $contactType};
+
+                $.ajax({
+                    url: $url,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: data,
+                    success: function (data) {
+                        if (data.is_valid) {
+                            $(".contactMessage").html(data.msg);
+                            $(".contactInfo").html(data.user_contact);
+                        }
+                    }
+                })
+            });
+
+            $(".deleteNotfication").click(function () {
+                var $this = $(this);
+                var $url = $this.attr('url');
+                var $notification_id = $this.attr('notification_id');
+
+                var data = {notification_id: $notification_id};
+
+                $.ajax({
+                    url: $url,
+                    type: 'GET',
+                    dataType: 'json',
+                    data: data,
+                    success: function (data) {
+                        if (data.is_valid) {
+                            location.reload();
+                        }
+                    }
+                })
+            });
+
+            $(".reloadPage").click(function () {
+                location.reload()
+            });
+        })
+    </script>
+
+{% endblock %}
+
+{% block breadcrumb %}
+    <nav class="col-sm-8 col-md-8 col-lg-8 offset-2" aria-label="breadcrumb">
+        <ol class="breadcrumb" style="margin-top: 80px; border-radius: 55px;">
+            <li class="breadcrumb-item" aria-current="page"><a href="{% url 'list-notes' %}">Homepage</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Notifications</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block BODY %}
+    <div class="row">
+        <!-- NOTIFICATION LIST -->
+        <div class="col-lg-4 offset-2" style="margin-top: 30px">
+            <div class="card" style="width: 45rem;">
+                <div class="card-body">
+                    <h3 class="card-title">Notifications</h3>
+                    <h6 class="card-subtitle mb-2 text-muted">The users who want to sell their notes. Notes information
+                    has listed below.</h6>
+                </div>
+                <!-- NOTIFICATION ITERATION -->
+                <div style="font-size: 20px; height: 600px; overflow-y: scroll;">
+                    {% for notification in notifications %}
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h5 class="text-danger">Request recieved! <i class="fa fa-bell"></i></h5><br>
+
+                                <b style="font-family: 'Trebuchet MS';">Name and last name:
+                                </b> {{ notification.user.get_full_name }}<br>
+
+                                <b style="font-family: 'Trebuchet MS';">Username:</b>
+                                {{ notification.user.username }}<br>
+
+                                <b style="font-family: 'Trebuchet MS';">Contact type:</b>
+                                {{ faculty_validation|get_contact:notification.contact }}<br>
+
+                                <b style="font-family: 'Trebuchet MS';">Faculty:</b>
+                                {{ faculty_validation|get_faculty:notification.faculty }}<br>
+
+                                <b style="font-family: 'Trebuchet MS';">Department:</b>
+                                {{ notification.department }}<br>
+
+                                <b style="font-family: 'Trebuchet MS';">Lecture:</b>
+                                {{ notification.lecture }}<br>
+
+                                <b style="font-family: 'Trebuchet MS';">Page number:</b>
+                                {{ notification.page }}<br>
+
+                                <b style="font-family: 'Trebuchet MS';">Additional message:</b>
+                                {% if notification.note == None or notification.note|length == 0 %}
+                                No additional message.<br>
+                                {% else %}
+                                {{ notification.note }}<br>
+                                {% endif %}
+
+                                <b style="font-family: 'Trebuchet MS';">Has sent:</b>
+                                {{ notification.notice_date|timesince }} ago<br>
+
+                                <button class="deleteNotfication btn btn-danger float-lg-right"
+                                        style="margin-left: 10px;"
+                                        username="{{ notification.user.username }}"
+                                        url="{% url 'delete-notification' %}"
+                                        notification_id="{{ notification.id }}">
+                                     <i class="fa fa-trash"></i> Delete
+                                </button>
+
+                                <button class="getInfo btn btn-primary float-lg-right"
+                                        contact_type="{{ notification.contact }}"
+                                        username="{{ notification.user.username }}"
+                                        url="{% url 'get-contact-info' %}">
+                                    <i class="fa fa-eye"></i> View Contact Information
+                                </button>
+                            </li>
+                        </ul>
+                        <!-- IF THERE ISN'T ANY NOTIFICATION -->
+                    {% empty %}
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <h5 class="text-danger"><i class="fa fa-bell-slash"></i> No notification found.</h5><br>
+                            </li>
+                        </ul>
+                    {% endfor %}
+                </div>
+                <!--RELOAD PAGE -->
+                <div class="card-body">
+                    <a href="#" class="reloadPage float-lg-right" style="font-size: 20px;">
+                        <i class="fa fa-refresh"></i> Refresh</a>
+                </div>
+            </div>
+        </div>
+        <!-- USER'S CONTACT INFORMATION -->
+        {% include 'notification/users-contact-info.html' %}
+    </div><br><br><br>
+{% endblock %}

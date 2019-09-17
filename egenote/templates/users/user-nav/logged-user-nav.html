@@ -1,0 +1,38 @@
+{% load notification_count %}
+<ul class="navbar-nav mr-auto">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+           data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-user"></i> {{ request.user.username }}
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'user-note-list' %}">
+                <i class="fa fa-book"></i> My Notes
+            </a>
+
+            <a class="dropdown-item" href="{% url 'user-settings' request.user.username %}">
+                <i class="fa fa-pencil-square-o"></i> My Profile
+            </a>
+
+            {% if request.user.is_staff %}
+                <a class="dropdown-item" href="{% url 'recieved-sales' %}">
+                    <i class="fa fa-bell-o"></i>
+                    Selling Requests ({{ notification_count|notifications }})
+                </a>
+                <a class="dropdown-item" href="{% url 'payment-notification' %}">
+                    <i class="fa fa-bell"></i>
+                    Payment Notifications ({{ notification_count|paymentnotifications }})
+                </a>
+            {% else %}
+            {% endif %}
+
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'user-logout' %}">
+                <i class="fa fa-sign-out"></i> Log out
+            </a>
+
+        </div>
+    </li>
+</ul>

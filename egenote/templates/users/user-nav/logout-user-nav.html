@@ -1,0 +1,20 @@
+<ul class="navbar-nav mr-auto">
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+           data-toggle="dropdown"
+           aria-haspopup="true" aria-expanded="false">
+            Log in or Register
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="{% url 'user-login' %}">
+                <i class="fa fa-sign-in"></i> Log in
+            </a>
+
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="{% url 'user-register' %}">
+                <i class="fa fa-user-plus"></i> Register
+            </a>
+        </div>
+    </li>
+</ul>

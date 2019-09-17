@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block TITLE %}Neyin nesiniz siz?{% endblock %}
+
+{% block breadcrumb %}
+<nav class="col-sm-8 col-md-8 col-lg-8 offset-2" aria-label="breadcrumb">
+  <ol class="breadcrumb"  style="margin-top: 80px; border-radius: 55px;">
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'list-notes' %}">Homepage</a></li>
+    <li class="breadcrumb-item active" aria-current="page">ABOUT US</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block BODY %}
+
+    <div class="col-lg-8 offset-2" style="margin-top: 40px">
+        <h1>What is Notework?</h1>
+        <p>Basically, It's a note buying/selling network. You can sell your notes to us. Also you can buy
+        any note. To sell note, click "SELL NOTE" on right corner of screen. To buy note, click note's "Buy Note" link.
+        You'll be direct a payment notification page. Read instructions in that page.
+        </p>
+        <h1>Our Mission</h1>
+        <p>We want to create a note network for our university. Also in future, we'll share articles,
+        news and reviews.</p>
+    </div>
+
+
+{% endblock %}

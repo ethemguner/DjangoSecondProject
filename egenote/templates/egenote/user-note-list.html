@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block TITLE %}Notlarım{% endblock %}
+
+{% block breadcrumb %}
+<nav class="col-sm-8 col-md-8 col-lg-8 offset-2" aria-label="breadcrumb">
+  <ol class="breadcrumb"  style="margin-top: 80px; border-radius: 55px;">
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'list-notes' %}">Homepage</a></li>
+    <li class="breadcrumb-item active" aria-current="page">My Notes</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block BODY %}
+    <div class="col-lg-8 offset-2">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">DEPARTMENT</th>
+                <th scope="col">LECTURE</th>
+                <th scope="col">FILE</th>
+            </tr>
+            </thead>
+            {% for my_note in user_notes %}
+                <tbody>
+                <tr>
+                    <th scope="row">{{ forloop.counter }}</th>
+                    <td style="font-family: 'Trebuchet MS'">{{ my_note.department }}</td>
+                    <td style="font-family: 'Trebuchet MS'">{{ my_note.lecture }}</td>
+                    <td style="font-family: 'Trebuchet MS'"><a href="http://127.0.0.1:8000{{ my_note.file_url }}">VIEW</a></td>
+                </tr>
+                </tbody>
+            {% empty %}
+                <tr>
+                    <th scope="row">1</th>
+                    <td class="text-danger">Couldn't find any note.</td>
+                    <td class="text-danger">No information</td>
+                    <td class="text-danger">No  information</td>
+                </tr>
+            {% endfor %}
+        </table>
+    <h4 class="text-info float-lg-right"><a href="{% url 'user-note-list' %}"><i class="fa fa-refresh"></i> Refresh</a></h4>
+    </div>
+
+
+{% endblock %}

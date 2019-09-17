@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% block TITLE %}Alınan Ödeme Bildirimleri{% endblock %}
+
+{% block HEADER %}
+
+    <script type="text/javascript" rel="script">
+        $(document).ready(function () {
+            $(".confirmPayment").click(function () {
+                if (confirm('Do you really want to confirm?')) {
+                    var $this = $(this);
+                    var $url = $this.attr('url');
+                    var $username = $this.attr('username');
+                    var $payment_id = $this.attr('payment_id');
+                    var $note_id = $this.attr('note_id');
+
+                    var data = {username: $username, payment_id: $payment_id, note_id: $note_id};
+
+                    $.ajax({
+                        url: $url,
+                        type: 'GET',
+                        dataType: 'json',
+                        data: data,
+                        success: function (data) {
+                            alert($username + "'s payment has confirmed successfully.")
+                            location.reload()
+                        }
+                    })
+                } else {
+                    // Do nothing!
+                }
+
+            })
+
+            $(".reloadContent").click(function () {
+                location.reload()
+            })
+        })
+    </script>
+
+{% endblock %}
+
+{% block breadcrumb %}
+    <nav class="col-sm-8 col-md-8 col-lg-8 offset-2" aria-label="breadcrumb">
+        <ol class="breadcrumb" style="margin-top: 80px; border-radius: 55px;">
+            <li class="breadcrumb-item" aria-current="page"><a href="{% url 'list-notes' %}">Homepage</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Staff Payment Page</li>
+        </ol>
+    </nav>
+{% endblock %}
+
+{% block BODY %}
+    <div class="row">
+        <div class="col-lg-6 offset-3">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">Payment Notifications</h2>
+                    <h6 class="card-subtitle mb-2 text-muted">List of payment notifications from users.
+                        Check notifications. After checking, If everyting is OK, confirm payments.</h6>
+                    <div class="empty-form" style="margin-top: 25px;"></div>
+                    {% for payment in payments %}
+                        <p class="card-text"><b>User: </b>{{ payment.user.username }}</p>
+                        <p class="card-text"><b>Who paid: </b>{{ payment.who_send }}</p>
+                        <p class="card-text"><b>Purchased Note: </b>{{ payment.bought_note }}</p>
+                        <p class="card-text"><b>Price: </b>{{ payment.bought_note.price }} TL</p>
+
+                        <button class="confirmPayment btn btn-success float-lg-right"
+                                style="margin-left: 10px;"
+                                username="{{ payment.user.username }}"
+                                url="{% url 'confirm-payment' %}"
+                                payment_id="{{ payment.id }}"
+                                note_id="{{ payment.bought_note.id }}">
+                            <i class="fa fa-check-circle"></i> Confirm Payment
+                        </button><br><br>
+                        <hr>
+                    {% empty %}
+                        <h4 class="text-danger">There is no payment right now.</h4><br>
+                    {% endfor %}
+                    <a href="#" class="reloadContent card-link"><i class="fa fa-refresh"></i> Refresh</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

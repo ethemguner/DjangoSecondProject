@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block TITLE %}Giriş Yap{% endblock %}
+
+{% block breadcrumb %}
+<nav class="col-sm-8 col-md-8 col-lg-8 offset-2" aria-label="breadcrumb">
+  <ol class="breadcrumb"  style="margin-top: 80px; border-radius: 55px;">
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'list-notes' %}">Ana sayfa</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Giriş Yap</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block BODY %}
+    <div class="row">
+        <div class="col-lg-4 offset-4" style="margin-top: 40px">
+        <h2 class="page-header">Log in</h2>
+            {% if form.non_field_errors %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-dismissable alert-danger">
+                        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                        {{ error|safe }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <form method="post" action="{% url 'user-login' %}">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-4 col-md-4 col-lg-12">
+                                <label class="control-label" style="color: #0f0f0f" for="{{ field.id_for_label }}">
+                                    {{ field.label }}
+                                </label>
+                                {{ field }}
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        <span style="color: red; font-family: 'Calibri Light'; font-size: 17px;"><b>{{ error }}</b></span>
+                                    {% endfor %}
+                                {% else %}
+                                    {% if field.help_text %}
+                                        <span class="text-info" style="color: dodgerblue">{{ field.help_text }}</span>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <span class="col-sm-4 col-md-4 col-lg-12"><b>Don't you have an account? <a
+                        href="{% url 'user-register' %}"> Register now!</a></b></span>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <input type="submit" class="btn btn-success float-lg-right" value="Giriş Yap" style="margin-top: 10px">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

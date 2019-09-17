@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block TITLE %}Giriş Yap{% endblock %}
+
+{% block breadcrumb %}
+<nav class="col-sm-8 col-md-8 col-lg-8 offset-2" aria-label="breadcrumb">
+  <ol class="breadcrumb"  style="margin-top: 80px; border-radius: 55px;">
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'list-notes' %}">Ana sayfa</a></li>
+    <li class="breadcrumb-item active" aria-current="page">Kaydol</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block BODY %}
+        <div class="row">
+            <div class="col-lg-4 offset-4" style="margin-top: 40px">
+                <h2 class="page-header">Ege Note Kayıt Sayfası</h2>
+                <p style="font-size: 15px">Lütfen aşağıdaki bilgileri doğru şekilde doldurunuz.</p>
+                <form method="post" action="{% url 'user-register' %}">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group" style="margin-top: 20px">
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6 col-lg-12">
+                                    <label class="control-label" style="color: #0f0f0f" for="{{ field.id_for_label }}">
+                                        <b>{{ field.label }}:</b>
+                                    </label>
+                                    {{ field }}
+                                    {% if field.errors %}
+                                        {% for error in field.errors %}
+                                            <span style="color: red; font-family: 'Calibri Light'; font-size: 17px;"><b>{{ error }}</b></span>
+                                        {% endfor %}
+                                    {% else %}
+                                        {% if field.help_text %}
+                                            <span class="text-info"
+                                                  style="color: dodgerblue">{{ field.help_text }}</span>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <input type="submit" class="btn btn-success float-lg-right" value="Kayıt Ol"
+                           style="margin-top: 10px">
+                </form>
+            </div>
+        </div>
+{% endblock %}
