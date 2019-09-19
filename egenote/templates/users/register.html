@@ -12,9 +12,9 @@
 
 {% block BODY %}
         <div class="row">
-            <div class="col-lg-4 offset-4" style="margin-top: 40px">
-                <h2 class="page-header">Ege Note Kayıt Sayfası</h2>
-                <p style="font-size: 15px">Lütfen aşağıdaki bilgileri doğru şekilde doldurunuz.</p>
+            <div class="col-sm-4 col-md-6 col-lg-4 offset-4" style="margin-top: 40px">
+                <h2 class="page-header">Notework Registiration Page</h2>
+                <p style="font-size: 15px">Please fill the blanks correctly.</p>
                 <form method="post" action="{% url 'user-register' %}">
                     {% csrf_token %}
                     {% for field in form %}

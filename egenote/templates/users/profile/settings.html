@@ -4,8 +4,8 @@
 {% block breadcrumb %}
 <nav class="col-sm-8 col-md-8 col-lg-8 offset-2" aria-label="breadcrumb">
   <ol class="breadcrumb"  style="margin-top: 80px; border-radius: 55px;">
-    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'list-notes' %}">Ana sayfa</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Bilgilerim</li>
+    <li class="breadcrumb-item" aria-current="page"><a href="{% url 'list-notes' %}">Homepage</a></li>
+    <li class="breadcrumb-item active" aria-current="page">My Settings</li>
   </ol>
 </nav>
 {% endblock %}
@@ -13,7 +13,7 @@
 {% block BODY %}
     <!-- UPDATE FORM -->
     <div class="row" style="margin-top: 60px;">
-        <div class="col-lg-3 offset-3">
+        <div class="col-sm-3 col-md-3 col-lg-3 offset-3">
             <h3>Update Information</h3>
             <form method="post" action="{% url 'user-settings' request.user.username %}">
                 {% csrf_token %}

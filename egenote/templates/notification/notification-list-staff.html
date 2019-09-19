@@ -67,12 +67,12 @@
 {% block BODY %}
     <div class="row">
         <!-- NOTIFICATION LIST -->
-        <div class="col-lg-4 offset-2" style="margin-top: 30px">
+        <div class="col-sm-4 col-lg-4 col-lg-4 offset-2" style="margin-top: 30px">
             <div class="card" style="width: 45rem;">
                 <div class="card-body">
                     <h3 class="card-title">Notifications</h3>
                     <h6 class="card-subtitle mb-2 text-muted">The users who want to sell their notes. Notes information
-                    has listed below.</h6>
+                        has listed below.</h6>
                 </div>
                 <!-- NOTIFICATION ITERATION -->
                 <div style="font-size: 20px; height: 600px; overflow-y: scroll;">
@@ -104,9 +104,9 @@
 
                                 <b style="font-family: 'Trebuchet MS';">Additional message:</b>
                                 {% if notification.note == None or notification.note|length == 0 %}
-                                No additional message.<br>
+                                    No additional message.<br>
                                 {% else %}
-                                {{ notification.note }}<br>
+                                    {{ notification.note }}<br>
                                 {% endif %}
 
                                 <b style="font-family: 'Trebuchet MS';">Has sent:</b>
@@ -117,7 +117,7 @@
                                         username="{{ notification.user.username }}"
                                         url="{% url 'delete-notification' %}"
                                         notification_id="{{ notification.id }}">
-                                     <i class="fa fa-trash"></i> Delete
+                                    <i class="fa fa-trash"></i> Delete
                                 </button>
 
                                 <button class="getInfo btn btn-primary float-lg-right"
@@ -145,6 +145,12 @@
             </div>
         </div>
         <!-- USER'S CONTACT INFORMATION -->
-        {% include 'notification/users-contact-info.html' %}
+
+            <div class="offset-sm-1 offset-md-1 offset-lg-0">
+                {% include 'notification/users-contact-info.html' %}
+            </div>
+
+
+
     </div><br><br><br>
 {% endblock %}

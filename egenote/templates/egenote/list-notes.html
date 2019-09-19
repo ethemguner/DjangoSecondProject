@@ -12,7 +12,7 @@
 
 {% block BODY %}
 
-    <div class="col-lg-10 offset-2 float-lg-right">
+    <div class="col-sm-10 col-md-10 col-lg-10 offset-2 float-lg-right">
         {% for field in form %}
             <form class="form-inline">
                 {{ field }}
@@ -24,7 +24,7 @@
             {% if notes|length == 0 %}
             <h3 class="text-danger">Sorry, we couldn't find anything about "{{ search }}" :(</h3>
             {% else %}
-            <h3 class="text-info">{{ notes|length }} result(s) has found.</h3>
+            <h3 class="text-info">{{ notes|length }} note(s) listed.</h3>
             {% endif %}
         {% endfor %}
     </div><br><br>
@@ -33,14 +33,14 @@
     <div class="container">
         <div class="row">
             {% for note in notes %}
-                <div class="col-sm" style="margin-top: 25px;">
+                <div class="col-sm-7 col-md-6 col-lg-6" style="margin-top: 25px;">
                     <div class="card" style="width: 22rem;">
                         <div class="card-body">
                             <h5 class="card-title">{{ note.title }}</h5>
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><b>LECTURE:</b> {{ note.lecture }}</li>
-                            <li class="list-group-item"><b>PRICE:</b> ${{ note.price }}</li>
+                            <li class="list-group-item"><b>PRICE:</b> <b style="color: green"> ${{ note.price }}</b></li>
                         </ul>
                         <div class="card-body">
                             <a href="{% url 'payment-page' note.slug %}" class="card-link">Buy</a>

@@ -32,19 +32,26 @@ class EgeNote(models.Model):
         ('law', 'Faculty of Law')
     )
 
-    faculty = models.CharField(max_length=100, choices=FACULTIES, blank=False, null=True,
+    faculty = models.CharField(max_length=100, choices=FACULTIES,
+                               blank=False, null=True,
                                verbose_name='Faculty:')
-    department = models.CharField(blank=False, null=True, max_length=200, verbose_name='Department:')
-    lecture = models.CharField(blank=False, null=True, max_length=200, verbose_name='Lecture:')
-    page = models.CharField(blank=False, null=True, max_length=200, verbose_name='Page number:')
-    egenote = models.FileField(blank=False, null=True, upload_to=upload_to, verbose_name="Upload note:")
+    department = models.CharField(blank=False, null=True,
+                                  max_length=200, verbose_name='Department:')
+    lecture = models.CharField(blank=False, null=True,
+                               max_length=200, verbose_name='Lecture:')
+    page = models.CharField(blank=False, null=True,
+                            max_length=200, verbose_name='Page number:')
+    egenote = models.FileField(blank=False, null=True,
+                               upload_to=upload_to, verbose_name="Upload note:")
     price = models.IntegerField(blank=False, null=True)
     title = models.CharField(blank=False, null=True, max_length=100)
-    description = models.TextField(max_length=1000, null=True, blank=True,
-                            verbose_name="Description, Author, Content:")
+    description = models.TextField(max_length=1000,
+                                   null=True, blank=True,
+                                   verbose_name="Description, Author, Content:")
     slug = models.SlugField(null=True, unique=True, editable=False)
     image = models.ImageField(upload_to=upload_to,
-                              verbose_name='Media:', blank=False)
+                              verbose_name='Media:',
+                              blank=False)
 
     class Meta:
         verbose_name_plural = "Uploaded Notes"
@@ -56,12 +63,12 @@ class EgeNote(models.Model):
         return self.egenote.url
 
     def get_unique_slug(self):
-        sayi = 0
+        number = 0
         slug = slugify(unidecode(self.title))
         new_slug = slug
         while EgeNote.objects.filter(slug=new_slug).exists():
-            sayi += 1
-            new_slug = "{}-{}".format(slug, sayi)
+            number += 1
+            new_slug = "{}-{}".format(slug, number)
         slug = new_slug
         return slug
 
@@ -86,10 +93,11 @@ class EgeNote(models.Model):
             img = Image.open(self.image)
             output = BytesIO()
             img = img.resize((700,700))
-            img.save(output, format='PNG', quality = 100)
+            img.save(output, format='PNG', quality=100)
             output.seek(0)
 
-            self.image = InMemoryUploadedFile(output, 'ImageField', '%s.png' %self.image.name.split('.')[0],
+            self.image = InMemoryUploadedFile(output,
+                                              'ImageField', '%s.png' %self.image.name.split('.')[0],
                                               'image/png', sys.getsizeof(output), None)
 
         super(EgeNote, self).save(*args, **kwargs)

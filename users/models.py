@@ -30,6 +30,7 @@ class Profile(models.Model):
         return self.user.username
 
     def get_faculty(self):
+        faculty = None
         if self.faculty == "dentistry":
             faculty = "Faculty of Dentistry"
         elif self.faculty == "pharmacy":
@@ -52,7 +53,8 @@ class Profile(models.Model):
             faculty = "Medial Faculty"
         elif self.faculty == "law":
             faculty = "Faculty of Law"
-
+        else:
+            faculty = "No information."
         return faculty
 
     def user_email(self):

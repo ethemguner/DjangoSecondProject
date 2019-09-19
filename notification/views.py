@@ -43,7 +43,6 @@ def list_notifications(request):
     return render(request, 'notification/notification-list-staff.html',
                   context={'notifications': notifications})
 
-
 def user_contact_info(request):
     if not request.is_ajax():
         return HttpResponseBadRequest

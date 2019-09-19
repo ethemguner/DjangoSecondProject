@@ -5,17 +5,24 @@ from .models import Profile
 import re
 
 class RegisterForm(forms.ModelForm):
-    password = forms.CharField(min_length=6, required=True, widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    password = forms.CharField(min_length=6, required=True,
+                               widget=forms.PasswordInput(attrs={'class': 'form-control'}),
                                label="Your password")
-    password_confirm = forms.CharField(min_length=6, widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+    password_confirm = forms.CharField(min_length=6,
+                                       widget=forms.PasswordInput(attrs={'class': 'form-control'}),
                                        label="Confirm password")
     faculty = forms.ChoiceField(required=True, choices=Profile.FACULTIES, label="Your faculty")
     phone_number = forms.CharField(widget=forms.TextInput, required=False, label="Your phone number")
 
     class Meta:
         model = User
-        fields = ['faculty', 'phone_number','first_name', 'last_name', 'username', 'email', 'password', 'password_confirm']
-        labels = {'first_name':'Your first name', 'last_name':'Your last name', 'username':'Your username', 'email':'Your e-mail adress '}
+        fields = ['faculty', 'phone_number','first_name',
+                  'last_name', 'username', 'email',
+                  'password', 'password_confirm']
+        labels = {'first_name':'Your first name',
+                  'last_name':'Your last name',
+                  'username':'Your username',
+                  'email':'Your e-mail adress '}
         help_texts = {'email':"Enter a e-mail which you're using it currently.",
                       'username':''}
 
@@ -62,9 +69,8 @@ class UpdateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UpdateForm, self).__init__(*args, **kwargs)
-        for field in self.fields:
-            self.fields['faculty'].widget.attrs = {'class': 'form-control'}
-            self.fields['phone_number'].widget.attrs = {'class': 'form-control', 'placeholder': '5xxxxxxxxx'}
+        self.fields['faculty'].widget.attrs = {'class': 'form-control'}
+        self.fields['phone_number'].widget.attrs = {'class': 'form-control', 'placeholder': '5xxxxxxxxx'}
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number', None)

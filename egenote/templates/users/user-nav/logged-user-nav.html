@@ -19,11 +19,21 @@
             {% if request.user.is_staff %}
                 <a class="dropdown-item" href="{% url 'recieved-sales' %}">
                     <i class="fa fa-bell-o"></i>
-                    Selling Requests ({{ notification_count|notifications }})
+                    Selling Requests
+                    {% if notification_count|notifications == 0 %}
+                    <span class="badge badge-secondary">{{ notification_count|notifications }}</span>
+                    {% else %}
+                    <span class="badge badge-success">{{ notification_count|notifications }}</span>
+                    {% endif %}
                 </a>
                 <a class="dropdown-item" href="{% url 'payment-notification' %}">
                     <i class="fa fa-bell"></i>
-                    Payment Notifications ({{ notification_count|paymentnotifications }})
+                    Payment Notifications
+                    {% if notification_count|paymentnotifications == 0 %}
+                    <span class="badge badge-secondary">{{ notification_count|paymentnotifications }}</span>
+                    {% else %}
+                    <span class="badge badge-success">{{ notification_count|paymentnotifications }}</span>
+                    {% endif %}
                 </a>
             {% else %}
             {% endif %}

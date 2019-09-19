@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.shortcuts import render, HttpResponseRedirect, reverse, get_object_or_404
 from django.contrib.auth.models import User
 from .models import EgeNote
@@ -27,31 +26,32 @@ def note_detail(request, slug):
     note = get_object_or_404(EgeNote, slug=slug)
     return render(request, 'egenote/note-detail.html', context={'note': note})
 
-
 def payment_notification(request, slug):
-    note = get_object_or_404(EgeNote, slug=slug)
-    form = PaymentNotificationForm(data=request.POST or None)
-    context = {
-        'note_department': note.department,
-        'note_lecture': note.lecture,
-        'note_description': note.description,
-        'note_price': note.price,
-        'note_slug': note.slug,
-        'form': form
-    }
+    if not request.user.is_active:
+        return HttpResponseRedirect(reverse('user-login'))
+    else:
+        note = get_object_or_404(EgeNote, slug=slug)
+        form = PaymentNotificationForm(data=request.POST or None)
+        context = {
+            'note_department': note.department,
+            'note_lecture': note.lecture,
+            'note_description': note.description,
+            'note_price': note.price,
+            'note_slug': note.slug,
+            'form': form
+        }
 
-    if form.is_valid():
-        who_send = form.cleaned_data.get('who_send', None)
-        user = get_object_or_404(User, username=request.user.username)
-        paymentNotification = PaymentNotification.objects.create(user=user, bought_note=note, who_send=who_send)
+        if form.is_valid():
+            who_send = form.cleaned_data.get('who_send', None)
+            user = get_object_or_404(User, username=request.user.username)
+            paymentNotification = PaymentNotification.objects.create(user=user, bought_note=note, who_send=who_send)
 
-        paymentNotification.save()
-        msg = "<b>We've recieved your payment. We'll check it as soon as possible.</b>"
-        messages.success(request, msg, extra_tags="success")
-        return HttpResponseRedirect(reverse('list-notes'))
+            paymentNotification.save()
+            msg = "<b>We've recieved your payment. You'll be available to use your note in approximately an hour.</b>"
+            messages.success(request, msg, extra_tags="success")
+            return HttpResponseRedirect(reverse('list-notes'))
 
     return render(request, 'notification/payment-notification-user.html', context=context)
-
 
 def user_note_list(request):
     user = get_object_or_404(User, username=request.user.username)

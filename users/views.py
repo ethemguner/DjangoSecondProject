@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse, get_object_or_404
 from .models import Profile
-from .forms import RegisterForm,  LoginForm, UpdateForm
+from .forms import RegisterForm, LoginForm, UpdateForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -25,7 +25,7 @@ def user_register(request):
             user = authenticate(username=username, password=password)
             user.save()
 
-            Profile.objects.create(user= user)
+            Profile.objects.create(user=user)
 
             if user:
                 if user.is_active:
@@ -40,7 +40,7 @@ def user_register(request):
                     return HttpResponseRedirect(reverse('list-notes'))
     else:
         return HttpResponseRedirect(reverse('list-notes'))
-    return render(request, 'users/register.html', context={'form':form})
+    return render(request, 'users/register.html', context={'form': form})
 
 def user_login(request):
     if not request.user.is_active:
@@ -72,15 +72,15 @@ def who_we_are(request):
 def update_information(request, username):
     if request.user.is_active:
         user = get_object_or_404(User, username=username)
-        form = UpdateForm(instance=user.profile, data=request.POST or None, files=request.FILES or None)
+        form = UpdateForm(instance=user.profile, data=request.POST or None)
 
         if form.is_valid():
-            phone_number = form.cleaned_data.get('phone_number',None)
+            phone_number = form.cleaned_data.get('phone_number', None)
             faculty = form.cleaned_data.get('faculty', None)
 
-            request.user.profile.faculty = faculty
-            request.user.profile.phone_number = phone_number
-            request.user.profile.save()
+            user.profile.faculty = faculty
+            user.profile.phone_number = phone_number
+            user.profile.save()
             form.save()
             msg = "<b>Your information has updated successfully.</b>"
             messages.success(request, msg, extra_tags="success")

@@ -16,7 +16,8 @@ class NotificationForm(forms.ModelForm):
             self.fields[field].widget.attrs = {'class': 'form-control'}
 
 class PaymentNotificationForm(forms.ModelForm):
-    who_send = forms.CharField(widget=forms.TextInput, required=True, label="Who paid (account owner)")
+    who_send = forms.CharField(widget=forms.TextInput,
+                               required=True, label="Who paid (account owner)")
     class Meta:
         model = PaymentNotification
         fields = ['who_send']

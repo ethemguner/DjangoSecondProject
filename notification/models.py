@@ -26,17 +26,24 @@ class Notification(models.Model):
         ('law', 'Faculty of Law')
     )
 
-    user = models.ForeignKey(User, null=True, blank=False, verbose_name="User:", on_delete=models.CASCADE)
-    contact = models.CharField(max_length=100, choices=CONTACT_TYPES, blank=False, null=True, verbose_name='Contact:',
+    user = models.ForeignKey(User, null=True, blank=False,
+                             verbose_name="User:", on_delete=models.CASCADE)
+    contact = models.CharField(max_length=100, choices=CONTACT_TYPES,
+                               blank=False, null=True, verbose_name='Contact:',
                                help_text="*We'll use your saved contact information. To check, click 'My Profile'")
-    faculty = models.CharField(max_length=100, choices=FACULTIES, blank=False, null=True,
+    faculty = models.CharField(max_length=100, choices=FACULTIES,
+                               blank=False, null=True,
                                verbose_name='Faculty:')
-    department = models.CharField(blank=False, null=True, max_length=200, verbose_name='Department:',
+    department = models.CharField(blank=False, null=True, max_length=200,
+                                  verbose_name='Department:',
                                   help_text="Note's department.")
-    lecture = models.CharField(blank=False, null=True, max_length=200, verbose_name='Lecture:',
+    lecture = models.CharField(blank=False, null=True, max_length=200,
+                               verbose_name='Lecture:',
                                help_text="Note's lecture.")
-    page = models.CharField(blank=False, null=True, max_length=200, verbose_name='Page number:')
-    note = models.TextField(max_length=1000, null=True, blank=True,
+    page = models.CharField(blank=False, null=True, max_length=200,
+                            verbose_name='Page number:')
+    note = models.TextField(max_length=1000, null=True,
+                            blank=True,
                             help_text="Any information that we need to know.",
                             verbose_name="Extra note:")
     notice_date = models.DateField(auto_now_add=True, auto_now=False)
@@ -49,6 +56,7 @@ class Notification(models.Model):
         return "{} adlı kullanıcıdan satış isteği!".format(self.user)
 
     def get_user_faculty(self):
+        faculty = None
         if self.faculty == "dentistry":
             faculty = "Faculty of Dentistry"
         elif self.faculty == "pharmacy":
@@ -71,15 +79,16 @@ class Notification(models.Model):
             faculty = "Medial Faculty"
         elif self.faculty == "law":
             faculty = "Faculty of Law"
-
         return faculty
 
-
 class PaymentNotification(models.Model):
-    user = models.ForeignKey(User, null=True, blank=False, verbose_name="User:", on_delete=models.CASCADE)
-    bought_note = models.ForeignKey(EgeNote, null=True, blank=False, verbose_name="Want to buy:",
-                                         on_delete=models.CASCADE)
-    who_send = models.CharField(null=True, blank=False, verbose_name="Who paid (account owner):", max_length=100,
+    user = models.ForeignKey(User, null=True, blank=False,
+                             verbose_name="User:", on_delete=models.CASCADE)
+    bought_note = models.ForeignKey(EgeNote, null=True, blank=False,
+                                    verbose_name="Want to buy:",
+                                    on_delete=models.CASCADE)
+    who_send = models.CharField(null=True, blank=False,
+                                verbose_name="Who paid (account owner):", max_length=100,
                                 help_text="*Please enter paying account owner.*")
 
     class Meta:

@@ -12,8 +12,8 @@
 
 {% block BODY %}
     <div class="row">
-        <div class="col-lg-8 offset-2">
-            <div class="card col-lg-8 offset-2">
+        <div class="col-sm-8 cold-md-8 col-lg-8 offset-2">
+            <div class="card col-sm-8 col-md-8 col-lg-8 offset-2">
                 <img class="card-img-top" src="{{ note.get_image }}" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">{{ note.title }}</h5>
@@ -22,7 +22,8 @@
                 <ul class="list-group list-group-flush">
                     <li class="list-group-item"><b>DEPARTMENT:</b> {{ note.department }}</li>
                     <li class="list-group-item"><b>LECTURE:</b> {{ note.lecture }}</li>
-                    <li class="list-group-item"><b>PRICE:</b> ${{ note.price }}</li>
+                    <li class="list-group-item"><b>PAGE:</b> {{ note.page }}</li>
+                    <li class="list-group-item"><b>PRICE:</b><b style="color: green"> ${{ note.price }}</b></li>
                 </ul>
                 <div class="card-body">
                     <a href="{% url 'payment-page' note.slug %}" class="card-link float-lg-right"
