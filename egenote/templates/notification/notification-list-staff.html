@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load faculty_validation %}
-{% block TITLE %}SATIŞ YAP{% endblock %}
+{% block TITLE %}Recieved Requests{% endblock %}
 {% block HEADER %}
 
     <script type="text/javascript" rel="script">
@@ -145,12 +145,6 @@
             </div>
         </div>
         <!-- USER'S CONTACT INFORMATION -->
-
-            <div class="offset-sm-1 offset-md-1 offset-lg-0">
-                {% include 'notification/users-contact-info.html' %}
-            </div>
-
-
-
+        {% include 'notification/users-contact-info.html' %}
     </div><br><br><br>
 {% endblock %}

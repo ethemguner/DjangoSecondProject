@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block TITLE %}NOTLAR{% endblock %}
+{% block TITLE %}Notework{% endblock %}
 
 {% block breadcrumb %}
     <nav class="col-sm-8 col-md-8 col-lg-8 offset-2" aria-label="breadcrumb">
@@ -16,15 +16,15 @@
         {% for field in form %}
             <form class="form-inline">
                 {{ field }}
-                <button class="btn btn-outline-primary my-2 my-sm-3 my-md-3" type="submit"
+                <button class="btn btn-warning my-2 my-sm-3 my-md-3" type="submit"
                         style="margin-left: 10px;">
-                    Search
+                    <i class="fa fa-search"></i> Search
                 </button>
             </form>
             {% if notes|length == 0 %}
             <h3 class="text-danger">Sorry, we couldn't find anything about "{{ search }}" :(</h3>
             {% else %}
-            <h3 class="text-info">{{ notes|length }} note(s) listed.</h3>
+            <h5 style="font-family: 'Trebuchet MS'; color: white">{{ notes|length }} note(s) listed.</h5>
             {% endif %}
         {% endfor %}
     </div><br><br>
@@ -33,18 +33,26 @@
     <div class="container">
         <div class="row">
             {% for note in notes %}
-                <div class="col-sm-7 col-md-6 col-lg-6" style="margin-top: 25px;">
-                    <div class="card" style="width: 22rem;">
+                <div class="col-sm-7 col-md-4 col-lg-4" style="margin-top: 25px;">
+                    <div class="card bg-secondary" style="width: 23rem;">
                         <div class="card-body">
-                            <h5 class="card-title">{{ note.title }}</h5>
+                            <h5 class="card-title" style="color: ghostwhite; font-family: 'Trebuchet MS'">{{ note.title }}</h5>
                         </div>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><b>LECTURE:</b> {{ note.lecture }}</li>
-                            <li class="list-group-item"><b>PRICE:</b> <b style="color: green"> ${{ note.price }}</b></li>
+                            <li class="list-group-item bg-dark">
+                                <b style="font-family: 'Trebuchet MS'; color: lightskyblue">DEPARTMENT:</b> <b style="color: white; font-family: Bahnschrift">
+                                {{ note.department }}</b></li>
+                            <li class="list-group-item bg-dark">
+                                <b style="font-family: 'Trebuchet MS'; color: lightskyblue">PRICE:</b> <b style="color: lightgreen; font-family: Bahnschrift">
+                                 {{ note.price }}TL</b></li>
                         </ul>
                         <div class="card-body">
-                            <a href="{% url 'payment-page' note.slug %}" class="card-link">Buy</a>
-                            <a href="{% url 'note-detail' note.slug %}" class="card-link">View</a>
+                            <a href="{% url 'payment-page' note.slug %}"
+                               class="card-link btn btn-warning float-lg-right">
+                                <i class="fa fa-cart-plus"></i> Buy</a>
+                            <a href="{% url 'note-detail' note.slug %}"
+                               class="card-link btn btn-outline-light">
+                                <i class="fa fa-search"></i> View</a>
                         </div>
                     </div>
                 </div>

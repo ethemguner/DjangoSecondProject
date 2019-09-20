@@ -12,39 +12,41 @@
 
 {% block BODY %}
     <div class="table-responsive">
-
-
         <div class="col-sm-8 col-md-8 col-lg-8 offset-2">
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">DEPARTMENT</th>
+                    <th scope="col" style="border-top-left-radius: 20px;">#</th>
+                    <th scope="col">DEPARTMENT </th>
                     <th scope="col">LECTURE</th>
-                    <th scope="col">FILE</th>
+                    <th scope="col" style="border-top-right-radius: 20px;">FILE</th>
                 </tr>
                 </thead>
                 {% for my_note in user_notes %}
                     <tbody>
                     <tr>
-                        <th scope="row">{{ forloop.counter }}</th>
-                        <td style="font-family: 'Trebuchet MS'">{{ my_note.department }}</td>
-                        <td style="font-family: 'Trebuchet MS'">{{ my_note.lecture }}</td>
-                        <td style="font-family: 'Trebuchet MS'"><a href="http://127.0.0.1:8000{{ my_note.file_url }}">VIEW</a>
+                        <th scope="row" class="bg-dark text-danger">{{ forloop.counter }}</th>
+                        <td style="font-family: 'Trebuchet MS'; color: lightskyblue" class="bg-secondary">
+                            <i class="fa fa-university"></i> {{ my_note.department }} </td>
+                        <td style="font-family: 'Trebuchet MS'; color: floralwhite" class="bg-secondary">
+                            <i class="fa fa-th-large"></i> {{ my_note.lecture }}</td>
+                        <td style="font-family: 'Trebuchet MS';" class="bg-secondary">
+                            <a class="text-warning" href="http://127.0.0.1:8000{{ my_note.file_url }}">
+                            <i class="fa fa-folder-open"></i> OPEN</a>
                         </td>
                     </tr>
                     </tbody>
                 {% empty %}
                     <tr>
                         <th scope="row">1</th>
-                        <td class="text-danger">Couldn't find any note.</td>
-                        <td class="text-danger">No information</td>
-                        <td class="text-danger">No information</td>
+                        <td class="text-danger"><i class="fa fa-exclamation-triangle"></i> Couldn't find any note.</td>
+                        <td class="text-danger"><i class="fa fa-exclamation-triangle"></i> No information</td>
+                        <td class="text-danger"><i class="fa fa-exclamation-triangle"></i> No information</td>
                     </tr>
                 {% endfor %}
             </table>
         </div>
-        <h4 class="text-info text-center"><a href="{% url 'user-note-list' %}"><i class="fa fa-refresh"></i> Refresh</a>
+        <h4 class="text-center"><a class="text-warning" href="{% url 'user-note-list' %}"><i class="fa fa-refresh"></i> Refresh</a>
         </h4>
     </div>
 

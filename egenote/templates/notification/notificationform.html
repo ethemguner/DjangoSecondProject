@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block TITLE %}SATIŞ YAP{% endblock %}
+{% block TITLE %}SELL NOTE{% endblock %}
 
 {% block breadcrumb %}
     <nav class="col-sm-8 col-md-8 col-lg-8 offset-2" aria-label="breadcrumb">
@@ -13,8 +13,8 @@
 {% block BODY %}
     <div class="row">
         <div class="col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-4 offset-lg-4" style="margin-top: 40px">
-            <h1 class="page-header">Sell Your Notes</h1>
-            <h5 class="text-danger">Please read: </h5>
+            <h1 class="text-center page-header" style="font-family: 'Bahnschrift'">Sell Your Notes</h1>
+            <h5 class="text-dark">Please read: </h5>
             <h6 class="text-dark" style="font-family: 'Trebuchet MS'">According to your contact type choice, we'll
                 phone (or we'll send message) or e-mail you. We'll choose a point at university and we'll take
                 your notes. <u>We don't meet outside of campus.</u></h6>
@@ -28,7 +28,7 @@
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-lg-12">
                                 <label class="control-label" style="color: #0f0f0f" for="{{ field.id_for_label }}">
-                                    <b>{{ field.label }}</b>
+                                    <b class="text-light">{{ field.label }}</b>
                                 </label>
                                 {{ field }}
                                 {% if field.errors %}
@@ -37,8 +37,8 @@
                                     {% endfor %}
                                 {% else %}
                                     {% if field.help_text %}
-                                        <span class="text-info"
-                                              style="color: dodgerblue">{{ field.help_text }}</span>
+                                        <span
+                                              style="color: lightgray">{{ field.help_text }}</span>
                                     {% endif %}
                                 {% endif %}
                             </div>

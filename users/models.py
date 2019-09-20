@@ -21,7 +21,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, null=True, blank=False, verbose_name="User", on_delete=models.CASCADE)
     faculty = models.CharField(choices=FACULTIES, blank=True, null=True, max_length=20, verbose_name='Faculty:')
     phone_number = models.CharField(max_length=10, verbose_name='Phone Number:', blank=True, null=True)
-    egenote = models.ManyToManyField(EgeNote, null=True, blank=True, verbose_name="User's note:")
+    egenote = models.ManyToManyField(EgeNote, blank=True, verbose_name="User's note:")
 
     class Meta:
         verbose_name_plural = "Profiles"
