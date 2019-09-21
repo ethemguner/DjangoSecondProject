@@ -16,6 +16,9 @@
                 <i class="fa fa-pencil-square-o"></i> My Profile
             </a>
 
+            <a class="dropdown-item" href="{% url 'cancel-payments-list' %}">
+                <i class="fa fa-trash"></i> Canceled Payments
+            </a>
             {% if request.user.is_staff %}
                 <a class="dropdown-item" href="{% url 'recieved-sales' %}">
                     <i class="fa fa-bell-o"></i>

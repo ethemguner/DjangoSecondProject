@@ -1,6 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, reverse, get_object_or_404
-from .models import Notification, PaymentNotification
-from .forms import NotificationForm
+from .models import Notification, PaymentNotification, CancelPayment
+from .forms import NotificationForm, CancelPaymentForm
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.http import HttpResponseBadRequest, JsonResponse
@@ -82,7 +82,8 @@ def delete_notification(request):
 
 def payments(request):
     payments = PaymentNotification.objects.all()
-    return render(request, 'notification/payment-notification-staff.html', context={'payments':payments})
+    form = CancelPaymentForm(data=request.POST or None)
+    return render(request, 'notification/payment-notification-staff.html', context={'payments':payments, 'form':form})
 
 def confirm_payment(request):
     if not request.is_ajax():
@@ -102,3 +103,27 @@ def confirm_payment(request):
     user.profile.egenote.add(note)
 
     return JsonResponse(data=data)
+
+def cancel_payment(request):
+    if not request.is_ajax():
+        return HttpResponseBadRequest
+
+    data = {'is_valid':True}
+    payment_id = request.GET.get('payment_id', None)
+    payment = get_object_or_404(PaymentNotification, id=payment_id)
+    payment.delete()
+    return JsonResponse(data=data)
+
+def cancel_payment_form(request, slug):
+    form = CancelPaymentForm(data=request.POST or None)
+    if form.is_valid():
+        user = get_object_or_404(User, username=slug)
+        msg = form.cleaned_data.get('reason')
+        CancelPayment.objects.create(user=user, reason=msg)
+        return HttpResponseRedirect(reverse('payment-notification'))
+    return HttpResponseRedirect(reverse('payment-notification'))
+
+def canceled_payment_list(request):
+    user = get_object_or_404(User, username=request.user.username)
+    canceled_payments = CancelPayment.objects.filter(user=user)
+    return render(request, 'notification/canceled-payments-list.html', context={'canceled_payments':canceled_payments})

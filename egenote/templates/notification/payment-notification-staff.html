@@ -21,18 +21,40 @@
                         dataType: 'json',
                         data: data,
                         success: function (data) {
-                            alert($username + "'s payment has confirmed successfully.")
-                            location.reload()
+                            alert($username + "'s payment has confirmed successfully.");
+                            location.reload();
                         }
                     })
                 } else {
                     // Do nothing!
                 }
 
-            })
+            });
 
             $(".reloadContent").click(function () {
                 location.reload()
+            });
+
+            $(".cancelPayment").click(function () {
+                if (confirm('Do you really want to confirm?')) {
+                    var $this = $(this);
+                    var $url = $this.attr('url');
+                    var $payment_id = $this.attr('payment_id');
+                    var $username = $this.attr('username');
+                    var data = {'payment_id': $payment_id};
+
+                    $.ajax({
+                        url: $url,
+                        type: 'GET',
+                        dataType: 'json',
+                        data: data,
+                        success: function (data) {
+                            alert($username + "'s payment has canceled.");
+                        }
+                    });
+                } else {
+                    // do nothing
+                }
             })
         })
     </script>
@@ -62,15 +84,51 @@
                         <p class="card-text"><b>Who paid: </b>{{ payment.who_send }}</p>
                         <p class="card-text"><b>Purchased Note: </b>{{ payment.bought_note }}</p>
                         <p class="card-text"><b>Price: </b>{{ payment.bought_note.price }} TL</p>
-
                         <button class="confirmPayment btn btn-success float-lg-right"
-                                style="margin-left: 10px;"
+                                style="margin-left: 10px; width: 180px"
                                 username="{{ payment.user.username }}"
                                 url="{% url 'confirm-payment' %}"
                                 payment_id="{{ payment.id }}"
                                 note_id="{{ payment.bought_note.id }}">
                             <i class="fa fa-check-circle"></i> Confirm Payment
                         </button><br><br>
+                        <hr>
+                        <!-- CANCELPAYMENTFORM FIELD -->
+                        <h3 class="text-center">If you cancel payment</h3>
+                        <form action="{% url 'cancel-payment-form' payment.user.username %}" method="post">
+                        {% csrf_token %}
+                            {% for field in form %}
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label class="control-label" style="color: #0f0f0f"
+                                               for="{{ field.id_for_label }}">
+                                            {{ field.label }}
+                                        </label>
+                                        {{ field }}
+                                        {% if field.errors %}
+                                            {% for error in field.errors %}
+                                                <span style="color: red; font-family: 'Calibri Light'; font-size: 17px;"><b>{{ error }}</b></span>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% if field.help_text %}
+                                                <span class="text-info"
+                                                      style="color: dodgerblue">{{ field.help_text }}</span>
+                                            {% endif %}
+                                        {% endif %}
+                                    </div>
+                                    <!-- CANCELING WITH AJAX, GIVING CANCELING REASON WITH FORM (POST REQUEST) -->
+                                    <button class="cancelPayment btn btn-secondary float-lg-right"
+                                            style="margin-left: 10px; width: 180px"
+                                            username="{{ payment.user.username }}"
+                                            url="{% url 'cancel-payment' %}"
+                                            payment_id="{{ payment.id }}"
+                                            note_id="{{ payment.bought_note.id }}">
+                                        <i class="fa fa-times"></i> Cancel Payment
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        </form>
+                        <br><br>
                         <hr>
                     {% empty %}
                         <h4 class="text-danger">There is no payment right now.</h4><br>

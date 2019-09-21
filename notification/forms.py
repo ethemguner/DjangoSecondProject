@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Notification, PaymentNotification
+from .models import Notification, PaymentNotification, CancelPayment
 
 class NotificationForm(forms.ModelForm):
     class Meta:
@@ -26,3 +26,13 @@ class PaymentNotificationForm(forms.ModelForm):
         super(PaymentNotificationForm, self).__init__(*args, **kwargs)
         for field in self.fields:
             self.fields[field].widget.attrs = {'class': 'form-control'}
+
+class CancelPaymentForm(forms.ModelForm):
+    class Meta:
+        model = CancelPayment
+        fields = ['reason']
+
+    def __init__(self, *args, **kwargs):
+        super(CancelPaymentForm, self).__init__(*args, **kwargs)
+        self.fields['reason'].widget.attrs = {'class': 'form-control',
+                                              'placeholder':'maximum 100 characters'}

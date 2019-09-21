@@ -97,3 +97,17 @@ class PaymentNotification(models.Model):
     def __str__(self):
         return "{} has a payment notification for {} note.".format(self.user.username,
                                                                    self.bought_note.title)
+
+class CancelPayment(models.Model):
+    user = models.ForeignKey(User, null=True, blank=False,
+                             verbose_name="User:", on_delete=models.CASCADE)
+    reason = models.CharField(null=True, blank=False,
+                              verbose_name="Reason:", max_length=100,
+                              help_text="Please write the reason of canceling.")
+    canceled_date = models.DateTimeField(auto_now_add=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = "Reasons of Cancelations"
+
+    def __str__(self):
+        return "{}'s payment has canceled because of {}".format(self.user.username, self.reason)
